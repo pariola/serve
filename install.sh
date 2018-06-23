@@ -1,6 +1,8 @@
 #!/bin/sh
 # Ubuntu
 sudo apt update
+# Install Git
+sudo apt install git
 # Download Node 10 PPA
 cd ~
 curl -sL https://deb.nodesource.com/setup_10.x -o nodesource_setup.sh
@@ -17,11 +19,32 @@ sudo apt update && sudo apt install yarn
 yarn global add pm2
 
 # Init Git for autodeployment
+echo "Creating ${app_name}"
 app_name=$1
 git init --bare /opt/${app_name}.git
 
-# Clone repo
+# Clone repo to app directory
 git clone /opt/${app_name}.git /${app_name}
+
+# Create `post-receive` git hook
+echo '#!/bin/sh
+echo "Build Triggered"
+# Move to app directory
+cd /app
+# Work Git
+git --git-dir=/opt/serve.git --work-tree=/app checkout master -f
+
+# Customizations
+
+# Yarn install
+echo "Installing dependencies"
+yarn
+# Starting app
+echo "Starting ..."
+pm2 start ecosystem.config.js' > ./opt/${app_name}.git/hooks/post-receive
+
+# Make `post-receive` executable
+chmod +x ./opt/${app_name}.git/hooks/post-receive
 
 # Done
 echo "Done"

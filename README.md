@@ -4,21 +4,38 @@ Script to setup my production environment on a server with:
 
 - Node.JS
 - Yarn
-- PM2
+- PM2 (using the `ecosystem.config.js` file)
+- Auto Deployment
 
 ## Install
 
-- Clone the repo by running →
+- Download script
 
-```
-git clone https://github.com/pariola/serve.git ./serve
+```console
+curl -s https://raw.githubusercontent.com/pariola/serve/master/install.sh -o install.sh
 ```
 
-- Change directory to `./serve`
-- Make `install.sh` executable by running →
+- Make script executable by running
 
-```
+```console
 chmod +x install.sh
 ```
 
-- The run with `./install.sh`
+- Then execute with `./install.sh APP_NAME` and replacing APP_NAME with the name you prefer
+
+## Usage
+
+After installing connect to your remote repository via `ssh://USERNAME@SERVER_IP/opt/APP_NAME.git`
+
+where 
+- USERNAME means username for server e.g `root`
+- SERVER_IP means your server's Public IP e.g `123.132.126.2`
+- APP_NAME means the name you would like e.g `serve`
+
+e.g → `git remote add origin ssh://root@123.132.126.2/opt/serve.git` on your local machine, then deploy changes
+
+## 🚀
+
+## Note
+
+- You can only connect via **SSH**
