@@ -1,5 +1,5 @@
 #!/bin/sh
-# Ubuntu 18.04
+# Ubuntu
 sudo apt update
 # Download Node 10 PPA
 cd ~
@@ -11,10 +11,17 @@ sudo apt install nodejs
 # Install Yarn
 curl -sL https://dl.yarnpkg.com/debian/pubkey.gpg | sudo apt-key add -
 echo "deb https://dl.yarnpkg.com/debian/ stable main" | sudo tee /etc/apt/sources.list.d/yarn.list
-sudo apt-get update && sudo apt-get install yarn
+sudo apt update && sudo apt install yarn
 
 # Install PM2
 yarn global add pm2
+
+# Init Git for autodeployment
+app_name=$1
+git init --bare /opt/${app_name}.git
+
+# Clone repo
+git clone /opt/${app_name}.git /${app_name}
 
 # Done
 echo "Done"
