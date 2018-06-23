@@ -19,29 +19,29 @@ sudo apt update && sudo apt install yarn
 yarn global add pm2
 
 # Init Git for autodeployment
+app_name=$(echo "$1")
 echo "Creating ${app_name}"
-app_name=$1
 git init --bare /opt/${app_name}.git
 
 # Clone repo to app directory
 git clone /opt/${app_name}.git /${app_name}
 
 # Create `post-receive` git hook
-echo '#!/bin/sh
-echo "Build Triggered"
+echo "#!/bin/sh
+echo 'Build Triggered'
 # Move to app directory
-cd /app
+cd /${app_name}
 # Work Git
-git --git-dir=/opt/serve.git --work-tree=/app checkout master -f
+git --git-dir=/opt/${app_name}.git --work-tree=/${app_name} checkout master -f
 
 # Customizations
 
 # Yarn install
-echo "Installing dependencies"
+echo 'Installing dependencies'
 yarn
 # Starting app
-echo "Starting ..."
-pm2 start ecosystem.config.js' > ./opt/${app_name}.git/hooks/post-receive
+echo 'Starting ...'
+pm2 start ecosystem.config.js" > ./opt/${app_name}.git/hooks/post-receive
 
 # Make `post-receive` executable
 chmod +x ./opt/${app_name}.git/hooks/post-receive
