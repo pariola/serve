@@ -41,10 +41,10 @@ echo 'Installing dependencies'
 yarn
 # Starting app
 echo 'Starting ...'
-pm2 start ecosystem.config.js" > ./opt/${app_name}.git/hooks/post-receive
+pm2 start ecosystem.config.js" > /opt/${app_name}.git/hooks/post-receive
 
 # Make `post-receive` executable
-chmod +x ./opt/${app_name}.git/hooks/post-receive
+chmod +x /opt/${app_name}.git/hooks/post-receive
 
 # Done
 echo "Done"
