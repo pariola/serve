@@ -24,7 +24,10 @@ git --git-dir=/opt/${app_name}.git --work-tree=/${app_name} checkout master -f
 
 # Yarn install
 echo 'Installing dependencies'
-yarn" > /opt/${app_name}.git/hooks/post-receive
+yarn
+# Starting app
+echo 'Starting ...'
+startapp" > /opt/${app_name}.git/hooks/post-receive
 
 # Make `post-receive` executable
 chmod +x /opt/${app_name}.git/hooks/post-receive
